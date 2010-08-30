@@ -3,8 +3,8 @@ import re
 from django import template
 
 
+#WIKI_WORD = r'(?:[A-Za-z0-9\-]+){2,}'
 WIKI_WORD = r'(?:[A-Z]+[a-z]+){2,}'
-
 
 register = template.Library()
 

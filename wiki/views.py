@@ -5,9 +5,9 @@ from django.shortcuts import get_object_or_404, render_to_response
 from forms import PageForm
 from models import Page
 
-
 def index(request):
     """Lists all pages stored in the wiki."""
+    print request.user
     pages = Page.objects.all()
     return render_to_response('wiki/index.html', {'pages': pages})
 
@@ -28,6 +28,7 @@ def edit(request, name):
         page = Page.objects.get(name=name)
     except Page.DoesNotExist:
         page = None
+        form = PageForm(initial={'name': name})
 
     if request.method == 'POST':
         form = PageForm(request.POST)
@@ -36,7 +37,7 @@ def edit(request, name):
                 page = Page()
             page.name = form.cleaned_data['name']
             page.content = form.cleaned_data['content']
-
+            page.title = form.cleaned_data['title']
             page.save()
             return HttpResponseRedirect('../../%s/' % page.name)
     else:

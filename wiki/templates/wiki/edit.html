@@ -14,6 +14,14 @@
 			</div>
 		</div>
 
+		<div class="field_wrapper required{% if form.title.errors %} errors{% endif %}" id="field_title">
+			<label for="id_name" class="field_title"><strong>Page title</strong></label>
+			{% if form.title.errors %}{{ form.title.errors }}{% endif %}
+			<div class="field text_input">
+				{{ form.title }}
+			</div>
+		</div>
+
 		<div class="field_wrapper required{% if form.content.errors %} errors{% endif %}" id="field_content">
 			<label for="id_content" class="field_name"><strong>Content</strong></label>
 			{% if form.content.errors %}{{ form.content.errors }}{% endif %}
