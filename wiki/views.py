@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
+
 from django.shortcuts import get_object_or_404, render_to_response
 
 from forms import PageForm
@@ -7,7 +8,6 @@ from models import Page
 
 def index(request):
     """Lists all pages stored in the wiki."""
-    print request.user
     pages = Page.objects.all()
     return render_to_response('wiki/index.html', {'pages': pages})
 
@@ -17,7 +17,10 @@ def view(request, name):
     try:
         page = Page.objects.get(name=name)
     except Page.DoesNotExist:
-        page = Page(name=name)
+        if request.user.is_authenticated():
+            page = Page(name=name)
+        else:
+            raise Http404
 
     return render_to_response('wiki/view.html', {'page': page})
 
